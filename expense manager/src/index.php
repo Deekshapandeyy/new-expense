@@ -22,6 +22,7 @@ session_start();
                 <label for="income" class="wrapper__label">Income</label><br>
                 <input type="number" id="enterIncome">
                 <button id="addEnteredIncome" class="wrapper__addbtn">Add</button>
+                <!-- <p id=error></p> -->
                 
             </div>
             <div id="addExpense">

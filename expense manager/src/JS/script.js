@@ -10,13 +10,14 @@ $(document).ready(function () {
     $("#addIncome").hide();
     $("#addExpense").show();
   });
+  let flag=0;
 let income = 0;
 let totalExpense = 0;
 let remaining = 0;
 let expense = 0;
 $("#addEnteredIncome").click(function () {
     income = $("#enterIncome").val();
-    remaining += (income)*1;
+   remaining += (income)*1;
     $("#showRemaining").val(remaining);
     $.ajax({
       url: "addIncome.php",
@@ -32,16 +33,35 @@ $("#addEnteredIncome").click(function () {
     let category = $("#selectExpense").val();
     totalExpense += expense * 1;
     remaining = (income - totalExpense)*1;
+    if(expense=="")
+    {
+      $("#error").html("Please enter something!!!");
+    }else {
       $("#error").html("");
-      $.ajax({
-        url: "addExpense.php",
-        type: "POST",
-        data: { Expense: expense, Category: category },
-      }).done(function () {
-        $("#showExpense").val(totalExpense);
-        $("#showRemaining").val(remaining);
-        display();
-      });
+      if (flag == 1) {
+        $.ajax({
+          url: "updatename.php",
+          type: "POST",
+          data: { Expense: expense, Category: category },
+        }).done(function () {
+          $("#showExpense").val(totalExpense);
+          $("#showRemaining").val(remaining);
+          display();
+      
+        });
+      } else {
+        $.ajax({
+          url: "addExpense.php",
+          type: "POST",
+          data: { Expense: expense, Category: category },
+        }).done(function () {
+          $("#showExpense").val(totalExpense);
+          $("#showRemaining").val(remaining);
+          display();
+        });
+      }
+    }
+     
   });
   function display() {
     $.ajax({
@@ -61,3 +81,20 @@ $("#addEnteredIncome").click(function () {
       display();
     });
   }
+  function edittask(id)
+{ flag = 1;
+    global = id; 
+    console.log(id);
+    $.ajax({
+      url: "update.php",
+      type: "POST",
+      data: { Expense: expense, Category: category },
+    }).done(function () {
+      $("#showExpense").val(totalExpense);
+      $("#showRemaining").val(remaining);
+      display();
+      console.log();
+  
+    });
+    console.log(flag);
+}
